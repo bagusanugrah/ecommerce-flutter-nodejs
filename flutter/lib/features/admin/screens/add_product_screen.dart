@@ -42,7 +42,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Essentials',
     'Appliances',
     'Books',
-    'Fashion'
+    'Fashion',
+    'Other'
   ];
 
   void sellProduct() {
@@ -216,7 +217,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 const SizedBox(height: 20),
                 CustomButton(
                   text: 'Sell',
-                  color: Colors.green, // Warna tombol
+                  fontSize: 20,
+                  textColor: Colors.white,
+                  color: Colors.black, // Warna tombol
                   onTap: sellProduct,
                 ),
                 const SizedBox(height: 20),
