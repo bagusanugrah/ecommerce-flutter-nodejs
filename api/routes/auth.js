@@ -17,11 +17,12 @@ authRouter.post("/api/signup", async (req, res) => {
         .json({ msg: "User with same email already exists!" });
     }
 
-    const hashedPassword = await bcryptjs.hash(password, 8);
+    // const hashedPassword = await bcryptjs.hash(password, 8);
 
     let user = new User({
       email,
-      password: hashedPassword,
+      // password: hashedPassword,
+      password,
       name,
     });
     user = await user.save();
@@ -44,7 +45,8 @@ authRouter.post("/api/signin", async (req, res) => {
         .json({ msg: "User with this email does not exist!" });
     }
 
-    const isMatch = await bcryptjs.compare(password, user.password);
+    // const isMatch = await bcryptjs.compare(password, user.password);
+    const isMatch = password == user.password;
     if (!isMatch) {
       return res.status(400).json({ msg: "Incorrect password." });
     }
