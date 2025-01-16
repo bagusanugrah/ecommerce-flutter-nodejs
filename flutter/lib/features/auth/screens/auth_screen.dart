@@ -1,12 +1,47 @@
-import 'package:amazon_clone_tutorial/common/widgets/custom_button.dart';
-import 'package:amazon_clone_tutorial/common/widgets/custom_textfield.dart';
-import 'package:amazon_clone_tutorial/constants/global_variables.dart';
-import 'package:amazon_clone_tutorial/features/auth/services/auth_service.dart';
+import 'package:ecommerce/common/widgets/custom_button.dart';
+import 'package:ecommerce/constants/global_variables.dart';
+import 'package:ecommerce/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 enum Auth {
   signin,
   signup,
+}
+
+class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final bool obscureText;
+  final Widget? suffixIcon;
+
+  const CustomTextField({
+    Key? key,
+    required this.controller,
+    required this.hintText,
+    this.obscureText = false,
+    this.suffixIcon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        suffixIcon: suffixIcon,
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter $hintText';
+        }
+        return null;
+      },
+    );
+  }
 }
 
 class AuthScreen extends StatefulWidget {
@@ -25,6 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  bool _isPasswordHidden = true; // For toggling password visibility
 
   @override
   void dispose() {
@@ -110,10 +146,24 @@ class _AuthScreenState extends State<AuthScreen> {
                         CustomTextField(
                           controller: _passwordController,
                           hintText: 'Password',
+                          obscureText: _isPasswordHidden,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordHidden = !_isPasswordHidden;
+                              });
+                            },
+                          ),
                         ),
                         const SizedBox(height: 10),
                         CustomButton(
                           text: 'Sign Up',
+                          color: Colors.blue, // Set a visible color for the button
                           onTap: () {
                             if (_signUpFormKey.currentState!.validate()) {
                               signUpUser();
@@ -129,7 +179,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ? GlobalVariables.backgroundColor
                     : GlobalVariables.greyBackgroundCOlor,
                 title: const Text(
-                  'Sign-In.',
+                  'Sign-In',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -161,10 +211,24 @@ class _AuthScreenState extends State<AuthScreen> {
                         CustomTextField(
                           controller: _passwordController,
                           hintText: 'Password',
+                          obscureText: _isPasswordHidden,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordHidden = !_isPasswordHidden;
+                              });
+                            },
+                          ),
                         ),
                         const SizedBox(height: 10),
                         CustomButton(
                           text: 'Sign In',
+                          color: Colors.blue, // Set a visible color for the button
                           onTap: () {
                             if (_signInFormKey.currentState!.validate()) {
                               signInUser();

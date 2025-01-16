@@ -1,9 +1,9 @@
-import 'package:amazon_clone_tutorial/common/widgets/loader.dart';
-import 'package:amazon_clone_tutorial/constants/global_variables.dart';
-import 'package:amazon_clone_tutorial/features/account/services/account_services.dart';
-import 'package:amazon_clone_tutorial/features/account/widgets/single_product.dart';
-import 'package:amazon_clone_tutorial/features/order_details/screens/order_details.dart';
-import 'package:amazon_clone_tutorial/models/order.dart';
+import 'package:ecommerce/common/widgets/loader.dart';
+import 'package:ecommerce/constants/global_variables.dart';
+import 'package:ecommerce/features/account/services/account_services.dart';
+import 'package:ecommerce/features/account/widgets/single_product.dart';
+import 'package:ecommerce/features/order_details/screens/order_details.dart';
+import 'package:ecommerce/models/order.dart';
 import 'package:flutter/material.dart';
 
 class Orders extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:amazon_clone_tutorial/features/admin/models/sales.dart';
+import 'package:ecommerce/features/admin/models/sales.dart';
 
 class CategoryProductsChart extends StatelessWidget {
   final List<Sales> salesData;
