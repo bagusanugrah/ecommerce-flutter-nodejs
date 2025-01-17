@@ -2,6 +2,7 @@ import 'package:ecommerce/constants/global_variables.dart';
 import 'package:ecommerce/features/admin/screens/analtyics_screen.dart';
 import 'package:ecommerce/features/admin/screens/orders_screen.dart';
 import 'package:ecommerce/features/admin/screens/posts_screen.dart';
+import 'package:ecommerce/features/account/services/account_services.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -51,13 +52,16 @@ class _AdminScreenState extends State<AdminScreen> {
                   color: Colors.black,
                 ),
               ),
-              const Text(
-                'Admin',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () => AccountServices().logOut(context),
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
