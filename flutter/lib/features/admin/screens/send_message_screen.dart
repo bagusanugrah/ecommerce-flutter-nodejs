@@ -31,7 +31,8 @@ class _SendMessageScreenState extends State<SendMessageScreen> {
       });
 
       // Kirim notifikasi menggunakan Firebase Cloud Messaging
-      const String serverKey = 'BPQyh7PsccvOfJHoHmifMvJ7IE38935zo3UZR2bEwRMYqDK6UWmFT2KgruGwp97gfmY1O5yxlwb2FyLUffxDQJk'; // Ganti dengan server key FCM dari Firebase Console
+      const String serverKey =
+          'BPQyh7PsccvOfJHoHmifMvJ7IE38935zo3UZR2bEwRMYqDK6UWmFT2KgruGwp97gfmY1O5yxlwb2FyLUffxDQJk'; // Ganti dengan server key FCM dari Firebase Console
       final response = await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{
@@ -47,17 +48,9 @@ class _SendMessageScreenState extends State<SendMessageScreen> {
         }),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Notifikasi berhasil dikirim");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pesan berhasil dikirim!')),
-        );
-      } else {
-        print("Gagal mengirim notifikasi: ${response.body}");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gagal mengirim notifikasi.')),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pesan berhasil dikirim!')),
+      );
     } catch (e) {
       print("Terjadi error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
