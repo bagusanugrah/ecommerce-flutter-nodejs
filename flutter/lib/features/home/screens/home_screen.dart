@@ -1,8 +1,8 @@
 import 'package:ecommerce/constants/global_variables.dart';
-import 'package:ecommerce/features/home/widgets/address_box.dart';
+/*import 'package:ecommerce/features/home/widgets/address_box.dart';
 import 'package:ecommerce/features/home/widgets/carousel_image.dart';
-import 'package:ecommerce/features/home/widgets/deal_of_day.dart';
-import 'package:ecommerce/features/home/widgets/top_categories.dart';
+import 'package:ecommerce/features/home/widgets/top_categories.dart';*/
+import 'package:ecommerce/features/home/widgets/all_products.dart';
 import 'package:ecommerce/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search Amazon.in',
+                        hintText: 'Search product',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -97,12 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: const [
-            AddressBox(),
+/*            AddressBox(),
             SizedBox(height: 10),
             TopCategories(),
             SizedBox(height: 10),
-            CarouselImage(),
-            DealOfDay(),
+            CarouselImage(),*/
+            SizedBox(height: 10),
+            AllProducts(),
           ],
         ),
       ),

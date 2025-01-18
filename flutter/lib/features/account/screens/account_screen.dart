@@ -23,11 +23,14 @@ class AccountScreen extends StatelessWidget {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/images/amazon_in.png',
-                  width: 120,
-                  height: 45,
-                  color: Colors.black,
+                child: Text(
+                  'Carrefour', // Tulisan menggantikan gambar logo
+                  style: const TextStyle(
+                    fontSize: 24, // Sesuaikan ukuran font
+                    fontWeight: FontWeight.bold, // Font dengan ketebalan bold
+                    fontFamily: 'Serif', // Gunakan font yang elegan (contoh: Serif)
+                    color: Colors.black, // Warna tulisan
+                  ),
                 ),
               ),
               Container(

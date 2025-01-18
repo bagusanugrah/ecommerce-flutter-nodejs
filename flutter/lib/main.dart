@@ -1,14 +1,25 @@
 import 'package:ecommerce/common/widgets/bottom_bar.dart';
+import 'package:ecommerce/common/widgets/main_slider.dart';
 import 'package:ecommerce/constants/global_variables.dart';
 import 'package:ecommerce/features/admin/screens/admin_screen.dart';
-import 'package:ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:ecommerce/features/auth/services/auth_service.dart';
 import 'package:ecommerce/providers/user_provider.dart';
 import 'package:ecommerce/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-void main() {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Pesan diterima di background: ${message.messageId}");
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Memastikan widget binding siap sebelum inisialisasi Firebase
+  await Firebase.initializeApp(); // Inisialisasi Firebase
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -39,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Amazon Clone',
+      title: 'Ecommerce',
       theme: ThemeData(
         scaffoldBackgroundColor: GlobalVariables.backgroundColor,
         colorScheme: const ColorScheme.light(
@@ -62,7 +73,7 @@ class _MyAppState extends State<MyApp> {
                   ? const BottomBar()
                   : const AdminScreen();
             } else {
-              return const AuthScreen();
+              return const MainSlider(); // Ganti AuthScreen dengan SliderScreen
             }
           },
         ),

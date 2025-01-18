@@ -10,6 +10,31 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class HomeServices {
+  Future<List<Product>> fetchAllProducts({required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Product> productList = [];
+    try {
+      final res = await http.get(
+        Uri.parse('$uri/api/products'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+
+      if (res.statusCode == 200) {
+        for (int i = 0; i < jsonDecode(res.body).length; i++) {
+          productList.add(Product.fromJson(jsonEncode(jsonDecode(res.body)[i])));
+        }
+      } else {
+        throw 'Error: ${res.statusCode} - ${res.reasonPhrase}';
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+
   Future<List<Product>> fetchCategoryProducts({
     required BuildContext context,
     required String category,
@@ -59,7 +84,7 @@ class HomeServices {
 
     try {
       http.Response res =
-          await http.get(Uri.parse('$uri/api/deal-of-day'), headers: {
+      await http.get(Uri.parse('$uri/api/deal-of-day'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });
