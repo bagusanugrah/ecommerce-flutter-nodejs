@@ -5,7 +5,13 @@ const { Product } = require("../models/product");
 
 productRouter.get("/api/products/", auth, async (req, res) => {
   try {
-    const products = await Product.find({ category: req.query.category });
+    if (req.query.category) {
+      const products = await Product.find({ category: req.query.category });
+      return res.json(products);
+    }
+
+    // If no category is provided, fetch all products
+    const products = await Product.find({});
     res.json(products);
   } catch (e) {
     res.status(500).json({ error: e.message });
