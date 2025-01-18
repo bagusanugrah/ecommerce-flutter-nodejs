@@ -47,7 +47,7 @@ class _SendMessageScreenState extends State<SendMessageScreen> {
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print("Notifikasi berhasil dikirim");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Pesan berhasil dikirim!')),

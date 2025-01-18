@@ -104,12 +104,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(Icons.mic, color: Colors.black, size: 25),
-              ),
             ],
           ),
         ),
@@ -118,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ? const Loader()
           : Column(
               children: [
-                const AddressBox(),
+                /*const AddressBox(),*/
                 const SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(

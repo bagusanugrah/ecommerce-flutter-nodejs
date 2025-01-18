@@ -100,12 +100,6 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(Icons.mic, color: Colors.black, size: 25),
-              ),
             ],
           ),
         ),
@@ -113,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const AddressBox(),
+            /*const AddressBox(),*/
             const CartSubtotal(),
             Padding(
               padding: const EdgeInsets.all(8.0),

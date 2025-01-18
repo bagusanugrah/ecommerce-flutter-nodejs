@@ -14,8 +14,8 @@ class MainSlider extends StatelessWidget {
       create: (_) => WeatherProvider(),
       child: PageView(
         children: [
-          const WeatherScreen(),
           const AuthScreen(),
+          const WeatherScreen(),
           AboutScreen(),
         ],
       ),

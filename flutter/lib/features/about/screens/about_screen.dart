@@ -51,7 +51,7 @@ class AboutScreen extends StatelessWidget {
                   onTap: () {
                     // Buka link di browser
                     const String url =
-                        'https://www.youtube.com/watch?v=O3nmP-lZAdg&list=PLlzmAWV2yTgCjoZNF3hLX3puYJir9vSQO&index=8';
+                        'https://www.youtube.com/watch?v=xvFZjo5PgG0';
                     openUrl(url, context);
                   },
                   child: const Text(
@@ -73,14 +73,7 @@ class AboutScreen extends StatelessWidget {
 
   void openUrl(String url, BuildContext context) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Gagal membuka link!'),
-        ),
-      );
-    }
+
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
