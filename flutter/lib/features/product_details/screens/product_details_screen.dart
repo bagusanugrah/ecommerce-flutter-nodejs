@@ -25,7 +25,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final ProductDetailsServices productDetailsServices =
-      ProductDetailsServices();
+  ProductDetailsServices();
   double avgRating = 0;
   double myRating = 0;
 
@@ -132,16 +132,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.product.id!,
-                  ),
-                  Stars(
-                    rating: avgRating,
-                  ),
-                ],
+              child: Stars(
+                rating: avgRating,
               ),
             ),
             Padding(
@@ -152,18 +144,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Text(
                 widget.product.name,
                 style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             CarouselSlider(
               items: widget.product.images.map(
-                (i) {
+                    (i) {
                   return Builder(
                     builder: (BuildContext context) => Image.network(
                       i,
                       fit: BoxFit.contain,
-                      height: 200,
+                      height: 300,
                     ),
                   );
                 },
@@ -183,7 +176,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 text: TextSpan(
                   text: 'Deal Price: ',
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
@@ -191,9 +184,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     TextSpan(
                       text: '\$${widget.product.price}',
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: 24,
                         color: Colors.red,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -201,8 +194,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                'Available Stock: ${widget.product.quantity}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.green,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(widget.product.description),
+              child: Text(
+                widget.product.description,
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.5,
+                ),
+              ),
             ),
             Container(
               color: Colors.black12,
