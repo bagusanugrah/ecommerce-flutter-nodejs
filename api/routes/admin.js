@@ -3,6 +3,7 @@ const adminRouter = express.Router();
 const admin = require("../middlewares/admin");
 const { Product } = require("../models/product");
 const Order = require("../models/order");
+const User = require("../models/user");
 const { PromiseProvider } = require("mongoose");
 
 // Add product
@@ -38,8 +39,22 @@ adminRouter.get("/admin/get-products", admin, async (req, res) => {
 adminRouter.post("/admin/delete-product", admin, async (req, res) => {
   try {
     const { id } = req.body;
-    let product = await Product.findByIdAndDelete(id);
-    res.json(product);
+
+    // Find and delete the product from the database
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Remove the product from the cart of all users
+    const users = await User.find({ "cart.product._id": id });
+    for (let user of users) {
+      user.cart = user.cart.filter((cartItem) => !cartItem.product.equals(id));
+      await user.save();
+    }
+
+    res.json({ message: "Product deleted and removed from all carts", product });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
