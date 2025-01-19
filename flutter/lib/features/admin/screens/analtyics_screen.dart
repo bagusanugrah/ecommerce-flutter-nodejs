@@ -1,8 +1,9 @@
 import 'package:ecommerce/common/widgets/loader.dart';
-import 'package:ecommerce/features/admin/models/sales.dart';
 import 'package:ecommerce/features/admin/services/admin_services.dart';
-import 'package:ecommerce/features/admin/widgets/category_products_chart.dart';
+import 'package:ecommerce/features/admin/widgets/product_quantity_chart.dart';
+import 'package:ecommerce/models/product.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({Key? key}) : super(key: key);
@@ -13,40 +14,59 @@ class AnalyticsScreen extends StatefulWidget {
 
 class _AnalyticsScreenState extends State<AnalyticsScreen> {
   final AdminServices adminServices = AdminServices();
-  int? totalSales;
-  List<Sales>? earnings;
+  List<Product>? products;
 
   @override
   void initState() {
     super.initState();
-    getEarnings();
+    fetchProducts();
   }
 
-  getEarnings() async {
-    var earningData = await adminServices.getEarnings(context);
-    totalSales = earningData['totalEarnings'];
-    earnings = earningData['sales'];
+  void fetchProducts() async {
+    products = await adminServices.fetchAllProducts(context);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return earnings == null || totalSales == null
+    return products == null
         ? const Loader()
         : Column(
-            children: [
-              Text(
-                '\$$totalSales',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 250,
-                child: CategoryProductsChart(salesData: earnings!),
-              ),
-            ],
-          );
+      children: [
+        SizedBox(
+          height: 250,
+          child: ProductQuantityChart(products: products!),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: products!.length,
+            itemBuilder: (context, index) {
+              final product = products![index];
+              return Row(
+                children: [
+                  Container(
+                    width: 16,
+                    height: 16,
+                    color: getRandomColor(index),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(product.name),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Color getRandomColor(int index) {
+    final random = Random(index);
+    return Color.fromRGBO(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      1,
+    );
   }
 }
