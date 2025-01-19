@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ecommerce/common/widgets/custom_button.dart';
 import 'package:ecommerce/common/widgets/custom_textfield.dart';
+import 'package:ecommerce/constants/global_variables.dart';
 import 'package:ecommerce/constants/utils.dart';
 import 'package:ecommerce/features/admin/services/admin_services.dart';
 import 'package:ecommerce/models/product.dart';
@@ -62,14 +63,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         List<String> imageUrls = [];
 
         if (newImages.isNotEmpty) {
-          // Step 1: Upload gambar baru ke Cloudinary
           for (File image in newImages) {
             String url = await adminServices.uploadImageToCloudinary(image, productNameController.text);
             imageUrls.add(url);
           }
         }
 
-        // Step 2: Update produk
         adminServices.updateProduct(
           context: context,
           id: widget.productId,
@@ -95,7 +94,19 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Product'),
+        title: const Text(
+          'Update Product',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: GlobalVariables.appBarGradient,
+          ),
+        ),
       ),
       body: previousImages.isEmpty && newImages.isEmpty
           ? const Center(child: CircularProgressIndicator())
@@ -103,52 +114,98 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         child: Form(
           key: _updateProductFormKey,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
                   onTap: selectImages,
                   child: Container(
-                    height: 150,
+                    height: 180,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200],
                     ),
                     child: newImages.isNotEmpty
                         ? ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: newImages.length,
                       itemBuilder: (context, index) {
-                        return Image.file(newImages[index]);
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(newImages[index], fit: BoxFit.cover),
+                          ),
+                        );
                       },
                     )
                         : ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: previousImages.length,
                       itemBuilder: (context, index) {
-                        return Image.network(previousImages[index]);
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(previousImages[index], fit: BoxFit.cover),
+                          ),
+                        );
                       },
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                CustomTextField(controller: productNameController, hintText: 'Product Name'),
-                const SizedBox(height: 10),
-                CustomTextField(controller: descriptionController, hintText: 'Description', maxLines: 5),
-                const SizedBox(height: 10),
-                CustomTextField(controller: priceController, hintText: 'Price'),
-                const SizedBox(height: 10),
-                CustomTextField(controller: quantityController, hintText: 'Quantity'),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: productNameController,
+                  hintText: 'Product Name',
+                ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: descriptionController,
+                  hintText: 'Description',
+                  maxLines: 5,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: priceController,
+                        hintText: 'Price',
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomTextField(
+                        controller: quantityController,
+                        hintText: 'Quantity',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
                   value: category,
                   items: ['Mobiles', 'Essentials', 'Appliances', 'Books', 'Fashion', 'Other']
                       .map((c) => DropdownMenuItem(value: c, child: Text(c)))
                       .toList(),
                   onChanged: (val) => setState(() => category = val!),
                 ),
-                const SizedBox(height: 20),
-                CustomButton(text: 'Update', onTap: updateProduct),
+                const SizedBox(height: 30),
+                CustomButton(
+                  text: 'Update Product',
+                  onTap: updateProduct,
+                ),
               ],
             ),
           ),

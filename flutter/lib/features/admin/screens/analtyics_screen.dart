@@ -29,34 +29,55 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return products == null
-        ? const Loader()
-        : Column(
-      children: [
-        SizedBox(
-          height: 250,
-          child: ProductQuantityChart(products: products!),
+    return Scaffold(
+      body: products == null
+          ? const Loader()
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Product Stocks Chart',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 250,
+              child: ProductQuantityChart(products: products!),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: products!.length,
+                itemBuilder: (context, index) {
+                  final product = products![index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 16,
+                          height: 16,
+                          color: getRandomColor(index),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          product.name,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: products!.length,
-            itemBuilder: (context, index) {
-              final product = products![index];
-              return Row(
-                children: [
-                  Container(
-                    width: 16,
-                    height: 16,
-                    color: getRandomColor(index),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(product.name),
-                ],
-              );
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 

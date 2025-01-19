@@ -19,7 +19,10 @@ class _AdminScreenState extends State<AdminScreen> {
   final double bottomBarBorderWidth = 3;
 
   final List<Widget> pages = [
-    const PostsScreen(),
+    const Padding(
+      padding: EdgeInsets.only(top: 16.0),
+      child: PostsScreen(),
+    ),
     const AnalyticsScreen(),
     const OrdersScreen(),
     const SendMessageScreen(),
@@ -45,9 +48,9 @@ class _AdminScreenState extends State<AdminScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Carrefour',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Serif',
