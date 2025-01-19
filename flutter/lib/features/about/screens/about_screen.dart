@@ -50,8 +50,7 @@ class AboutScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     // Buka link di browser
-                    const String url =
-                        'https://www.youtube.com/watch?v=xvFZjo5PgG0';
+                    const String url = 'https://youtu.be/TNRi20nQ80o';
                     openUrl(url, context);
                   },
                   child: const Text(
