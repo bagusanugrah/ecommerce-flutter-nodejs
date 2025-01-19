@@ -1,6 +1,7 @@
 import 'package:ecommerce/common/widgets/bottom_bar.dart';
 import 'package:ecommerce/features/address/screens/address_screen.dart';
 import 'package:ecommerce/features/admin/screens/add_product_screen.dart';
+import 'package:ecommerce/features/admin/screens/update_product_screen.dart'; // Import UpdateProductScreen
 import 'package:ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:ecommerce/features/home/screens/category_deals_screen.dart';
 import 'package:ecommerce/features/home/screens/home_screen.dart';
@@ -24,15 +25,26 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const HomeScreen(),
       );
+
     case BottomBar.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const BottomBar(),
       );
+
     case AddProductScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const AddProductScreen(),
+      );
+
+    case UpdateProductScreen.routeName:
+      var productId = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => UpdateProductScreen(
+          productId: productId,
+        ),
       );
 
     case CategoryDealsScreen.routeName:
@@ -43,6 +55,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           category: category,
         ),
       );
+
     case SearchScreen.routeName:
       var searchQuery = routeSettings.arguments as String;
       return MaterialPageRoute(
@@ -51,6 +64,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           searchQuery: searchQuery,
         ),
       );
+
     case ProductDetailScreen.routeName:
       var product = routeSettings.arguments as Product;
       return MaterialPageRoute(
@@ -59,6 +73,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           product: product,
         ),
       );
+
     case AddressScreen.routeName:
       var totalAmount = routeSettings.arguments as String;
       return MaterialPageRoute(
@@ -67,6 +82,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           totalAmount: totalAmount,
         ),
       );
+
     case OrderDetailScreen.routeName:
       var order = routeSettings.arguments as Order;
       return MaterialPageRoute(
@@ -75,6 +91,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           order: order,
         ),
       );
+
     default:
       return MaterialPageRoute(
         settings: routeSettings,

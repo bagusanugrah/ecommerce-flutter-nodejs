@@ -13,6 +13,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class AdminServices {
+  final cloudinary = CloudinaryPublic('drawgchhs', 's8j3k9b');
+
   void sellProduct({
     required BuildContext context,
     required String name,
@@ -25,7 +27,6 @@ class AdminServices {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
-      final cloudinary = CloudinaryPublic('drawgchhs', 's8j3k9b');
       List<String> imageUrls = [];
 
       for (int i = 0; i < images.length; i++) {
@@ -96,6 +97,140 @@ class AdminServices {
       showSnackBar(context, e.toString());
     }
     return productList;
+  }
+
+  // Get product by ID
+  Future<Product?> fetchProductById(BuildContext context, String productId) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    Product? product;
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/admin/get-product/$productId'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          product = Product.fromJson(res.body); // Properly deserialize JSON
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+
+    return product;
+  }
+
+  // Update product
+  void updateProduct({
+    required BuildContext context,
+    required String id,
+    required String name,
+    required String description,
+    required double price,
+    required double quantity,
+    required String category,
+    required List<String> images,
+    required List<String> oldImages,
+    required VoidCallback onSuccess,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      // Data produk yang akan diperbarui
+      final productData = {
+        'name': name,
+        'description': description,
+        'images': images.isNotEmpty ? images : oldImages,
+        'quantity': quantity,
+        'price': price,
+        'category': category,
+        'oldImages': images.isNotEmpty ? oldImages : [], // Hapus jika ada gambar baru
+      };
+
+      final response = await http.put(
+        Uri.parse('$uri/admin/update-product/$id'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode(productData),
+      );
+
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          onSuccess();
+          showSnackBar(context, 'Product updated successfully!');
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<String> uploadImageToCloudinary(File image, String folderName) async {
+    try {
+      CloudinaryResponse res = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image.path, folder: folderName),
+      );
+      return res.secureUrl;
+    } catch (e) {
+      throw Exception('Failed to upload image: $e');
+    }
+  }
+
+  void updateProductWithoutNewImages({
+    required BuildContext context,
+    required String id,
+    required String name,
+    required String description,
+    required double price,
+    required double quantity,
+    required String category,
+    required List<String> previousImages,
+    required VoidCallback onSuccess,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      Product product = Product(
+        id: id,
+        name: name,
+        description: description,
+        quantity: quantity,
+        images: previousImages,
+        category: category,
+        price: price,
+      );
+
+      http.Response res = await http.put(
+        Uri.parse('$uri/admin/update-product/$id'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: product.toJson(),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          onSuccess();
+          showSnackBar(context, 'Product updated successfully!');
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 
   void deleteProduct({

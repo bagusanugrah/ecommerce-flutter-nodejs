@@ -31,8 +31,7 @@ class _SendMessageScreenState extends State<SendMessageScreen> {
       });
 
       // Kirim notifikasi menggunakan Firebase Cloud Messaging
-      const String serverKey =
-          'BPQyh7PsccvOfJHoHmifMvJ7IE38935zo3UZR2bEwRMYqDK6UWmFT2KgruGwp97gfmY1O5yxlwb2FyLUffxDQJk'; // Ganti dengan server key FCM dari Firebase Console
+      const String serverKey = 'BPQyh7PsccvOfJHoHmifMvJ7IE38935zo3UZR2bEwRMYqDK6UWmFT2KgruGwp97gfmY1O5yxlwb2FyLUffxDQJk'; // Ganti dengan server key FCM dari Firebase Console
       final response = await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{
